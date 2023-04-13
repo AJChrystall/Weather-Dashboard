@@ -9,51 +9,59 @@
 
 <body>
     <!-- HTML body content goes here -->
-<form id="weatherForm">
+    <form id="weatherForm">
         <input type="text" id="cityInput" placeholder="Enter city">
         <button type="submit">Get Weather</button>
-</form>
+    </form>
 
-<div id="forecastData">
-     <p id="temperature"></p>
-     <p id="humidity"></p>
-     <p id="windSpeed"></p>
-     <!-- Add other elements to display weather data as needed -->
-</div>
+    <div id="forecastData">
+        <ul id="forecastList"></ul>
+        <!-- Add other elements to display weather data as needed -->
+    </div>
 
-<script>
-    // Fetch weather forecast data for a specific location
-    function fetchWeatherForecastData(location) {
-    const apiKey = '2ed76626b4e5f9735df0eba669822045'; // Replace with your actual API key
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`)
-    .then(response => response.json())
-    .then(data => {
-        // Process the weather forecast data
-        console.log(data);
-        // Update your website's UI with the weather forecast data
-        // Example: Display forecasted temperature, humidity, and wind speed
-        const forecastTemperatureKelvin = data.main.temp;
-        const forecastTemperatureCelsius = forecastTemperatureKelvin - 273.15;
-        const forecastHumidity = data.main.humidity;
-        const forecastWindSpeed = data.wind.speed;
-        const forecastContainer = document.getElementById('forecastData');
-        forecastContainer.innerHTML = `
-        <p>Temperature: ${forecastTemperatureCelsius.toFixed(2)}°C</p>
-        <p>Humidity: ${forecastHumidity}%</p>
-        <p>Wind Speed: ${forecastWindSpeed} m/s</p>`;
-    })
-    .catch(error => {
-    // Handle any errors
-    console.error(error);
-    });
-}
+    <script>
+        // Fetch weather forecast data for a specific location
+        function fetchWeatherForecastData(location) {
+            const apiKey = '2ed76626b4e5f9735df0eba669822045'; // Replace with your actual API key
+            fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Process the weather forecast data
+                    console.log(data);
+                    // Update your website's UI with the weather forecast data
+                    // Example: Display forecasted temperature, humidity, and wind speed
+                    const forecastList = document.getElementById('forecastList');
+                    forecastList.innerHTML = '';
+                    for (let i = 0; i < data.list.length; i++) {
+                        const forecast = data.list[i];
+                        const forecastDateTime = forecast.dt_txt;
+                        const forecastTemperatureKelvin = forecast.main.temp;
+                        const forecastTemperatureCelsius = forecastTemperatureKelvin - 273.15;
+                        const forecastHumidity = forecast.main.humidity;
+                        const forecastWindSpeed = forecast.wind.speed;
+                        const forecastListItem = document.createElement('li');
+                        forecastListItem.innerHTML = `
+                            <p>Date/Time: ${forecastDateTime}</p>
+                            <p>Temperature: ${forecastTemperatureCelsius.toFixed(2)}°C</p>
+                            <p>Humidity: ${forecastHumidity}%</p>
+                            <p>Wind Speed: ${forecastWindSpeed} m/s</p>
+                        `;
+                        forecastList.appendChild(forecastListItem);
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error(error);
+                });
+        }
 
-    // Add event listener to form submit event
-    document.getElementById('weatherForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const city = document.getElementById('cityInput').value;
-    fetchWeatherForecastData(city);
-});
-</script>
+        // Add event listener to form submit event
+        document.getElementById('weatherForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const city = document.getElementById('cityInput').value;
+            fetchWeatherForecastData(city);
+        });
+    </script>
 </body>
+
 </html>
