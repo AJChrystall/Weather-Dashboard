@@ -1,32 +1,15 @@
-/*stylesheet */
-body {
-    font-family: Arial, sans-serif;
-}
-
-#weatherForm {
-    text-align: center;
-    margin-top: 50px;
-}
-
-#cityInput {
+/* CSS styles for weather forecast data boxes */
+.weather-container {
+    border: 1px solid #ccc;
     padding: 10px;
-    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
-#forecastData {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
+.weather-container p {
+    margin: 0;
+    padding: 0;
 }
 
-.weather-box {
-    margin: 0 10px;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    text-align: center;
-}
-
-.weather-box h3 {
-    margin-top: 0;
+.weather-container p:not(:last-child) {
+    margin-bottom: 5px;
 }

@@ -4,6 +4,10 @@
 <head>
     <title>Weather Dashboard</title>
     <link rel="stylesheet" href="assets/styling/style.css">
+    <link rel="stylesheet" href="assets/script.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
     <script src="https://api.openweathermap.org/data/2.5/weather"></script>
 </head>
 
@@ -15,9 +19,11 @@
     </form>
 
     <div id="forecastData">
-        <ul id="forecastList"></ul>
-        <!-- Add other elements to display weather data as needed -->
+        <div id="forecastList" class="weather-container">
+            <!-- Weather data for day 1 -->
+        </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 
     <script>
         // Fetch weather forecast data for a specific location
