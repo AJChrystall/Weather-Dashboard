@@ -4,43 +4,56 @@
 <head>
     <title>Weather Dashboard</title>
     <link rel="stylesheet" href="assets/styling/style.css">
-    <link rel="weatherapi" href="assets/script.js">
     <script src="https://api.openweathermap.org/data/2.5/weather"></script>
 </head>
 
 <body>
-    <h1>Weather Dashboard</h1>
+    <!-- HTML body content goes here -->
+<form id="weatherForm">
+        <input type="text" id="cityInput" placeholder="Enter city">
+        <button type="submit">Get Weather</button>
+</form>
 
-    <!-- Search Form -->
-    <form id="search-form">
-        <input type="text" id="city-input" placeholder="Enter city name">
-        <button type="submit">Search</button>
-    </form>
+<div id="forecastData">
+     <p id="temperature"></p>
+     <p id="humidity"></p>
+     <p id="windSpeed"></p>
+     <!-- Add other elements to display weather data as needed -->
+</div>
 
-    <!-- Current Weather Conditions -->
-    <div id="current-weather">
-        <h2>Current Weather</h2>
-        <p id="city-name"></p>
-        <p id="date"></p>
-        <img id="weather-icon" src="" alt="Weather Icon">
-        <p id="temperature"></p>
-        <p id="humidity"></p>
-        <p id="wind-speed"></p>
-    </div>
+<script>
+    // Fetch weather forecast data for a specific location
+    function fetchWeatherForecastData(location) {
+    const apiKey = '2ed76626b4e5f9735df0eba669822045'; // Replace with your actual API key
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+        // Process the weather forecast data
+        console.log(data);
+        // Update your website's UI with the weather forecast data
+        // Example: Display forecasted temperature, humidity, and wind speed
+        const forecastTemperatureKelvin = data.main.temp;
+        const forecastTemperatureCelsius = forecastTemperatureKelvin - 273.15;
+        const forecastHumidity = data.main.humidity;
+        const forecastWindSpeed = data.wind.speed;
+        const forecastContainer = document.getElementById('forecastData');
+        forecastContainer.innerHTML = `
+        <p>Temperature: ${forecastTemperatureCelsius.toFixed(2)}°C</p>
+        <p>Humidity: ${forecastHumidity}%</p>
+        <p>Wind Speed: ${forecastWindSpeed} m/s</p>`;
+    })
+    .catch(error => {
+    // Handle any errors
+    console.error(error);
+    });
+}
 
-    <!-- Future Weather Conditions -->
-    <div id="future-weather">
-        <h2>5-Day Forecast</h2>
-        <ul id="forecast-list"></ul>
-    </div>
-
-    <!-- Search History -->
-    <div id="search-history">
-        <h2>Search History</h2>
-        <ul id="history-list"></ul>
-    </div>
-
-    <script src="script.js"></script>
+    // Add event listener to form submit event
+    document.getElementById('weatherForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const city = document.getElementById('cityInput').value;
+    fetchWeatherForecastData(city);
+});
+</script>
 </body>
-
 </html>
