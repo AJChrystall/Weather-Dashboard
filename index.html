@@ -50,31 +50,33 @@
                     const forecastTemperatureCelsius = forecastTemperatureKelvin - 273.15;
                     const forecastHumidity = forecast.main.humidity;
                     const forecastWindSpeed = forecast.wind.speed;
-                    const forecastListItem = document.createElement('li')
-                    
-    forecastListItem.innerHTML = `
-    <p>Date/Time: ${forecastDateTime}</p>
-    <p>Weather: ${forecastWeatherDescription}</p
-   <p>Temperature: ${forecastTemperatureCelsius.toFixed(2)}°C</p>
-    <p>Humidity: ${forecastHumidity}%</p>
-    <p>Wind Speed: ${forecastWindSpeed} m/s</p>
-`;
-    forecastList.appendChild(forecastListItem);
-}
-    })
-    .catch(error => {
-    // Handle any errors
-    console.error(error);
-    });
-}
+                    const forecastWeatherIconCode = forecast.weather[0].icon;
+                    const forecastWeatherIconUrl = `https://openweathermap.org/img/w/${forecastWeatherIconCode}.png`;
 
+                    const forecastListItem = document.createElement('li');
+                    forecastListItem.innerHTML = `
+                        <p>Date/Time: ${forecastDateTime}</p>
+                        <p>Weather: ${forecastWeatherDescription}</p>
+                        <p>Temperature: ${forecastTemperatureCelsius.toFixed(2)}°C</p>
+                        <p>Humidity: ${forecastHumidity}%</p>
+                        <p>Wind Speed: ${forecastWindSpeed} m/s</p>
+                        <img src="${forecastWeatherIconUrl}" alt="Weather Icon">
+                    `;
+                    forecastList.appendChild(forecastListItem);
+                }
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error(error);
+            });
+        }
 
-    // Add event listener to form submit event
-    document.getElementById('weatherForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    const city = document.getElementById('cityInput').value;
-        fetchWeatherForecastData(city);
-    });
+        // Add event listener to form submit event
+        document.getElementById('weatherForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const city = document.getElementById('cityInput').value;
+            fetchWeatherForecastData(city);
+        });
     </script>
 </body>
 
